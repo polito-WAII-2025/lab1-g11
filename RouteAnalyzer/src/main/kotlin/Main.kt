@@ -1,20 +1,26 @@
 package g11
 
-import kotlinx.serialization.Serializable
-import java.io.File
+import g11.utils.*
 
-@Serializable
-data class Waypoint(val timestamp: Double, val latitude: Double, val longitude: Double)
 
 fun main() {
 
-    val csv = File("waypoints.csv").readText()
+    // Read the waypoints from the CSV file
+    val waypoints = readWaypointsFromCsv("evaluation/waypoints.csv")
 
-    val data = csv.split("\n").map {
-        val parts = it.split(";")
-        Waypoint(parts[0].toDouble(), parts[1].toDouble(), parts[2].toDouble())
-    }
 
-    data.forEach { println(it) }
+    // Load the custom parameters from the YAML file
+    val customParams = loadCustomParametersFromYaml("evaluation/custom-parameters.yml" , waypoints)
+
+    println(customParams)
+
+    println("max distance from start")
+    println(calculateMaxDistanceFromStart(waypoints))
+
+    println("most frequented area")
+    println(calculateMostFrequentedArea(waypoints, customParams!!.mostFrequentedAreaRadiusKm))
+
+    println("out of geofence")
+    println(countWaypointsOutsideGeoFence(waypoints, customParams.geoFence))
 
 }
