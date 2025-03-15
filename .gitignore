@@ -1,25 +1,59 @@
-# Logs
-logs
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# Kotlin
+*.iml
+*.class
 *.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+*.swp
+*.swo
+*.swn
 
-node_modules
-dist
-dist-ssr
-*.local
+# IntelliJ IDEA
+.idea/
+*.ipr
+*.iws
+out/
 
-# Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-.idea
+# OS-specific files
 .DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Temporary files
+*.tmp
+*.lock
+*.gz
+
+# Kotlin DSL specific
+.gradle/kotlin/
+
+# Package manager files
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Generated files
+/build/
+/bin/
+
+# Environment files
+.env
+.env.local
+
+# JetBrains specific
+*.ijwb/
+*.vcslog
+
+# Gradle caches and logs
+.gradle/
+/build/
+!gradle/wrapper/gradle-wrapper.jar
+/out/
 /.gradle/
+**/buildSrc/.gradle/
