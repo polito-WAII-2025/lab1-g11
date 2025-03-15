@@ -1,5 +1,6 @@
 package g11
 
+import g11.models.AnalysisResults
 import g11.utils.*
 
 import java.io.File
@@ -20,7 +21,9 @@ fun main(args: Array<String>) {
     }
 
     // Read the waypoints from the CSV file
+
     val waypoints = readWaypointsFromCsv(waypointsCsvPath)
+
 
     // Load the custom parameters from the YAML file
     val customParams = loadCustomParametersFromYaml(yamlFilePath, waypoints)
@@ -29,15 +32,22 @@ fun main(args: Array<String>) {
             return
         }
 
-    println(customParams)
 
-    println("max distance from start")
-    println(calculateMaxDistanceFromStart(waypoints))
+    val maxDistanceFromStart = calculateMaxDistanceFromStart(waypoints)
+    val mostFrequentedArea = calculateMostFrequentedArea(waypoints, customParams!!.mostFrequentedAreaRadiusKm)
+    val waypointsOutsideGeofence = countWaypointsOutsideGeoFence(
+        waypoints,
+        customParams.geofenceCenterLatitude,
+        customParams.geofenceCenterLongitude,
+        customParams.geofenceRadiusKm
+    )
 
-    println("most frequented area")
-    println(calculateMostFrequentedArea(waypoints, customParams!!.mostFrequentedAreaRadiusKm))
+    val results = AnalysisResults(
+        maxDistanceFromStart,
+        mostFrequentedArea,
+        waypointsOutsideGeofence
+    )
 
-    println("out of geofence")
-    println(countWaypointsOutsideGeoFence(waypoints, customParams.geoFence))
-
+    writeResultsToJsonFile(results, "evaluation/output.json")
 }
+
