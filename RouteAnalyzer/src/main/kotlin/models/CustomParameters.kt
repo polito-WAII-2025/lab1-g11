@@ -5,5 +5,5 @@ data class CustomParameters(
     val geofenceCenterLatitude: Double,
     val geofenceCenterLongitude: Double,
     val geofenceRadiusKm: Double,
-    val mostFrequentedAreaRadiusKm: Double
+    var mostFrequentedAreaRadiusKm: Double?
 )

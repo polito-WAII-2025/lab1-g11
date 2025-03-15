@@ -22,7 +22,7 @@ import g11.models.Waypoint
  *                  if not specified in the YAML file.
  * @return A CustomParameters object containing the parsed and calculated parameters, or null if parsing fails.
  */
-fun loadCustomParametersFromYaml(yamlFilePath: String, waypoints: List<Waypoint>): CustomParameters? {
+fun loadCustomParametersFromYaml(yamlFilePath: String): CustomParameters? {
     return try {
         val yaml = Yaml()
         FileInputStream(yamlFilePath).use { inputStream ->
@@ -38,15 +38,14 @@ fun loadCustomParametersFromYaml(yamlFilePath: String, waypoints: List<Waypoint>
                 ?: throw IllegalArgumentException("Missing geofenceRadiusKm in YAML file.")
 
             val mostFrequentedAreaRadiusKm = data["mostFrequentedAreaRadiusKm"] as? Double
-            val finalMostFrequentedAreaRadiusKm =
-                mostFrequentedAreaRadiusKm ?: calculateMostFrequentedAreaRadiusKm(waypoints)
+
 
             return CustomParameters(
                 earthRadiusKm = earthRadiusKm,
                 geofenceCenterLatitude = geofenceCenterLatitude,
                 geofenceCenterLongitude = geofenceCenterLongitude,
                 geofenceRadiusKm = geofenceRadiusKm,
-                mostFrequentedAreaRadiusKm = finalMostFrequentedAreaRadiusKm
+                mostFrequentedAreaRadiusKm = mostFrequentedAreaRadiusKm
             )
         }
     } catch (e: Exception) {
@@ -103,5 +102,26 @@ fun writeResultsToJsonFile(results: AnalysisResults, path: String) {
         File(path).writeText(jsonString)
     } catch (e: Exception) {
         println("Error writing to file: ${e.message}")
+    }
+}
+
+fun validateFiles(waypointsCsvPath: String, yamlFilePath: String): Boolean {
+    if (!File(waypointsCsvPath).exists()) {
+        println("Error: Waypoints CSV file not found at '$waypointsCsvPath'")
+        return false
+    }
+    if (!File(yamlFilePath).exists()) {
+        println("Error: YAML configuration file not found at '$yamlFilePath'")
+        return false
+    }
+    return true
+}
+
+
+fun loadCustomParameters(yamlFilePath: String): CustomParameters? {
+    return loadCustomParametersFromYaml(yamlFilePath).also {
+        if (it == null) {
+            println("Error: Failed to load parameters from '$yamlFilePath'")
+        }
     }
 }
