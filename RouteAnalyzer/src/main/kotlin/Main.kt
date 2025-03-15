@@ -21,6 +21,6 @@ fun main() {
     println(calculateMostFrequentedArea(waypoints, customParams!!.mostFrequentedAreaRadiusKm))
 
     println("out of geofence")
-    println(countWaypointsOutsideGeoFence(waypoints, customParams.geoFence))
+    println(countWaypointsOutsideGeoFence(waypoints, customParams.geofenceCenterLatitude, customParams.geofenceCenterLongitude, customParams.geofenceRadiusKm))
 
 }

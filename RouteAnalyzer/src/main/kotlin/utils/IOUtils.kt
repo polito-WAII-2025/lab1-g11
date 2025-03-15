@@ -4,7 +4,6 @@ import java.io.File
 import java.io.FileInputStream
 import org.yaml.snakeyaml.Yaml
 import g11.models.CustomParameters
-import g11.models.GeoFence
 import g11.models.Waypoint
 
 /**
@@ -26,23 +25,22 @@ fun loadCustomParametersFromYaml(yamlFilePath: String, waypoints: List<Waypoint>
         val inputStream = FileInputStream(yamlFilePath)
         val data: Map<String, Any> = yaml.load(inputStream)
 
-        val earthRadiusKm = (data["earthRadiusKm"] as Double)
-        val geoFence = GeoFence(
-            Waypoint(
-                timestamp = 0.0,
-                latitude = (data["geofenceCenterLatitude"] as Double),
-                longitude = (data["geofenceCenterLongitude"] as Double)
-            ),
-            radius = (data["geofenceRadiusKm"] as Double)
-        )
+        val earthRadiusKm = data["earthRadiusKm"] as Double
+
+        val geofenceCenterLatitude = data["geofenceCenterLatitude"] as Double
+        val geofenceCenterLongitude = data["geofenceCenterLongitude"] as Double
+        val geofenceRadiusKm = data["geofenceRadiusKm"] as Double
 
         // Check if mostFrequentedAreaRadiusKm is provided, otherwise calculate it
         val mostFrequentedAreaRadiusKm = data["mostFrequentedAreaRadiusKm"] as? Double
-        val finalMostFrequentedAreaRadiusKm = mostFrequentedAreaRadiusKm ?: calculateMostFrequentedAreaRadiusKm(waypoints)
+        val finalMostFrequentedAreaRadiusKm =
+            mostFrequentedAreaRadiusKm ?: calculateMostFrequentedAreaRadiusKm(waypoints)
 
         CustomParameters(
             earthRadiusKm = earthRadiusKm,
-            geoFence = geoFence,
+            geofenceCenterLatitude = geofenceCenterLatitude,
+            geofenceCenterLongitude = geofenceCenterLongitude,
+            geofenceRadiusKm = geofenceRadiusKm,
             mostFrequentedAreaRadiusKm = finalMostFrequentedAreaRadiusKm
         )
     } catch (e: Exception) {

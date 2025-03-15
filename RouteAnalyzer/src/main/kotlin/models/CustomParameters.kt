@@ -2,6 +2,8 @@ package g11.models
 
 data class CustomParameters(
     val earthRadiusKm: Double,
-    val geoFence: GeoFence,
+    val geofenceCenterLatitude: Double,
+    val geofenceCenterLongitude: Double,
+    val geofenceRadiusKm: Double,
     val mostFrequentedAreaRadiusKm: Double
 )

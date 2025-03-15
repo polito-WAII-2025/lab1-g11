@@ -1,6 +1,5 @@
 package g11.utils
 
-import g11.models.GeoFence
 import g11.models.Waypoint
 import kotlin.math.*
 
@@ -28,7 +27,11 @@ fun Double.toRadians(): Double = Math.toRadians(this)
  * @return The distance between the two points in kilometers.
  */
 fun distanceInKm(
-    latitude1: Double, longitude1: Double, latitude2: Double, longitude2: Double, radius: Double = EARTH_RADIUS_KM
+    latitude1: Double,
+    longitude1: Double,
+    latitude2: Double,
+    longitude2: Double,
+    radius: Double = EARTH_RADIUS_KM
 ): Double {
     val dLat = (latitude2 - latitude1).toRadians()
     val dLon = (longitude2 - longitude1).toRadians()
@@ -50,7 +53,11 @@ fun distanceInKm(
  * @return `true` if the point is inside the geo-fence, `false` otherwise.
  */
 fun isPointInGeoFence(
-    centerLatitude: Double, centerLongitude: Double, radius: Double, latitude: Double, longitude: Double
+    centerLatitude: Double,
+    centerLongitude: Double,
+    radius: Double,
+    latitude: Double,
+    longitude: Double
 ): Boolean = distanceInKm(centerLatitude, centerLongitude, latitude, longitude) <= radius
 
 /**
@@ -103,15 +110,23 @@ fun calculateMostFrequentedArea(waypoints: List<Waypoint>, areaRadiusKm: Double)
  * Counts the waypoints that fall outside a given geo-fence.
  *
  * @param waypoints List of waypoints.
- * @param geoFence The geo-fence to check against.
- * @return A pair containing the count of waypoints outside and the list of those waypoints.
+ * @param geofenceCenterLatitude Latitude of the geo-fence center (in degrees).
+ * @param geofenceCenterLongitude Longitude of the geo-fence center (in degrees).
+ * @param geofenceRadiusKm Radius of the geo-fence (in kilometers).
+ * @return A pair containing the count of waypoints outside the geo-fence and the list of those waypoints.
  */
-fun countWaypointsOutsideGeoFence(waypoints: List<Waypoint>, geoFence: GeoFence): Pair<Int, List<Waypoint>> {
+fun countWaypointsOutsideGeoFence(
+    waypoints: List<Waypoint>,
+    geofenceCenterLatitude: Double,
+    geofenceCenterLongitude: Double,
+    geofenceRadiusKm: Double
+): Pair<Int, List<Waypoint>> {
     val outsideWaypoints = waypoints.filterNot {
-        isPointInGeoFence(geoFence.waypoint.latitude, geoFence.waypoint.longitude, geoFence.radius, it.latitude, it.longitude)
+        isPointInGeoFence(geofenceCenterLatitude, geofenceCenterLongitude, geofenceRadiusKm, it.latitude, it.longitude)
     }
     return Pair(outsideWaypoints.size, outsideWaypoints)
 }
+
 
 /**
  * Calculates a suitable radius for the most frequented area based on max distance from start.
