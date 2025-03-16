@@ -10,50 +10,24 @@ import g11.models.CustomParameters
 import g11.models.Waypoint
 
 /**
- * Loads a YAML file and parses it into a CustomParameters object.
- * This function reads the YAML file located at the specified path, extracting the earth radius, geo-fence
- * details, and the most frequented area radius. It also calculates the most frequented area radius from
- * waypoints if it is not provided in the YAML file.
+ * Loads a YAML file and parses it into a map of parameters.
+ * This function reads the YAML file located at the specified path and extracts the parameters.
  *
- * @param yamlFilePath Path to the YAML file. The YAML file is expected to contain keys such as "earthRadiusKm",
- *                     "geofenceCenterLatitude", "geofenceCenterLongitude", "geofenceRadiusKm",
- *                     and optionally "mostFrequentedAreaRadiusKm".
- * @param waypoints A list of Waypoint objects that may be used to calculate the most frequented area radius
- *                  if not specified in the YAML file.
- * @return A CustomParameters object containing the parsed and calculated parameters, or null if parsing fails.
+ * @param yamlFilePath Path to the YAML file. The YAML file is expected to contain various keys.
+ * @return A map containing the parsed parameters, or null if parsing fails.
  */
-fun loadCustomParametersFromYaml(yamlFilePath: String): CustomParameters? {
+fun loadCustomParametersFromYaml(yamlFilePath: String): Map<String, Any>? {
     return try {
         val yaml = Yaml()
         FileInputStream(yamlFilePath).use { inputStream ->
-            val data: Map<String, Any> = yaml.load(inputStream)
-
-            val earthRadiusKm = data["earthRadiusKm"] as? Double
-                ?: throw IllegalArgumentException("Missing earthRadiusKm in YAML file.")
-            val geofenceCenterLatitude = data["geofenceCenterLatitude"] as? Double
-                ?: throw IllegalArgumentException("Missing geofenceCenterLatitude in YAML file.")
-            val geofenceCenterLongitude = data["geofenceCenterLongitude"] as? Double
-                ?: throw IllegalArgumentException("Missing geofenceCenterLongitude in YAML file.")
-            val geofenceRadiusKm = data["geofenceRadiusKm"] as? Double
-                ?: throw IllegalArgumentException("Missing geofenceRadiusKm in YAML file.")
-
-            val mostFrequentedAreaRadiusKm = data["mostFrequentedAreaRadiusKm"] as? Double
-
-
-            return CustomParameters(
-                earthRadiusKm = earthRadiusKm,
-                geofenceCenterLatitude = geofenceCenterLatitude,
-                geofenceCenterLongitude = geofenceCenterLongitude,
-                geofenceRadiusKm = geofenceRadiusKm,
-                mostFrequentedAreaRadiusKm = mostFrequentedAreaRadiusKm
-            )
+            val data: Map<String, Any> = yaml.load(inputStream) ?: emptyMap()
+            data
         }
     } catch (e: Exception) {
         println("Error reading YAML file: ${e.message}")
         null
     }
 }
-
 
 
 /**
@@ -105,6 +79,14 @@ fun writeResultsToJsonFile(results: AnalysisResults, path: String) {
     }
 }
 
+/**
+ * Validates the existence of the specified files.
+ * This function checks if the waypoints CSV file and the YAML configuration file exist at the given paths.
+ *
+ * @param waypointsCsvPath Path to the waypoints CSV file.
+ * @param yamlFilePath Path to the YAML configuration file.
+ * @return `true` if both files exist, `false` otherwise.
+ */
 fun validateFiles(waypointsCsvPath: String, yamlFilePath: String): Boolean {
     if (!File(waypointsCsvPath).exists()) {
         println("Error: Waypoints CSV file not found at '$waypointsCsvPath'")
@@ -115,13 +97,4 @@ fun validateFiles(waypointsCsvPath: String, yamlFilePath: String): Boolean {
         return false
     }
     return true
-}
-
-
-fun loadCustomParameters(yamlFilePath: String): CustomParameters? {
-    return loadCustomParametersFromYaml(yamlFilePath).also {
-        if (it == null) {
-            println("Error: Failed to load parameters from '$yamlFilePath'")
-        }
-    }
 }
