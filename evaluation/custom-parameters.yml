@@ -1,0 +1,5 @@
+earthRadiusKm: 6378.0
+geofenceCenterLatitude: 45.06796
+geofenceCenterLongitude: 7.66478
+geofenceRadiusKm: 5.0
+mostFrequentedAreaRadiusKm:  # This line is optional and can be omitted if not needed

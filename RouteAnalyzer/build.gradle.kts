@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.20"
+    kotlin("plugin.serialization") version "2.1.10"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
     application
 }
 
@@ -11,6 +13,8 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.6.3")
+    implementation("org.yaml:snakeyaml:2.0")
     testImplementation(kotlin("test"))
 }
 
@@ -30,4 +34,22 @@ tasks.jar {
         attributes["Main-Class"] = "g11.MainKt"
     }
 }
+
+//////////////////////////////////////////////////////////////////////////////
+
+//plugins {
+//    kotlin("jvm") version "1.9.0"
+//    application
+//    id("com.github.johnrengelman.shadow") version "8.1.1" // Add this
+//}
+//
+//application {
+//    mainClass.set("g11.MainKt")  // Replace with your actual main class
+//}
+//
+//tasks.withType<Jar> {
+//    manifest {
+//        attributes["Main-Class"] = "g11.MainKt"
+//    }
+//}
 
