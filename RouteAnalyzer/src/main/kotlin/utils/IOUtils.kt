@@ -1,5 +1,6 @@
 package g11.utils
 
+import g11.models.AdvancedAnalysisResults
 import java.io.File
 import java.io.FileInputStream
 import org.yaml.snakeyaml.Yaml
@@ -73,6 +74,15 @@ fun readWaypointsFromCsv(filePath: String): List<Waypoint> {
 fun writeResultsToJsonFile(results: AnalysisResults, path: String) {
     try {
         val jsonString = Json.encodeToString(AnalysisResults.serializer(), results)
+        File(path).writeText(jsonString)
+    } catch (e: Exception) {
+        println("Error writing to file: ${e.message}")
+    }
+}
+
+fun writeAdvancedResultsToJsonFile(results: AdvancedAnalysisResults, path: String) {
+    try {
+        val jsonString = Json.encodeToString(AdvancedAnalysisResults.serializer(), results)
         File(path).writeText(jsonString)
     } catch (e: Exception) {
         println("Error writing to file: ${e.message}")

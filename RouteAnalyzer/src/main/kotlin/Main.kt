@@ -2,10 +2,7 @@ package g11
 
 import g11.models.CustomParameters
 import g11.services.*
-import g11.utils.calculateMostFrequentedAreaRadiusKm
-import g11.utils.readWaypointsFromCsv
-import g11.utils.validateFiles
-import g11.utils.writeResultsToJsonFile
+import g11.utils.*
 
 
 fun main(args: Array<String>) {
@@ -31,10 +28,12 @@ fun main(args: Array<String>) {
 
 
     val results = performAnalysis(waypoints)
+    val advancedResults = performAdvancedAnalysis(waypoints)
 
 
     if (results != null) {
         writeResultsToJsonFile(results, "evaluation/output.json")
+        writeAdvancedResultsToJsonFile(advancedResults, "evaluation/output_advanced.json")
     } else {
         println("Analysis failed.")
     }

@@ -1,5 +1,8 @@
 package g11.utils
 
+import g11.models.Waypoint
+import kotlin.math.*
+
 
 /**
  * README: These are suggested feature that we can implement as extra features.
@@ -24,6 +27,21 @@ package g11.utils
  * TODO: Implement a function to calculate Total Distance Traveled
  * It should receive a list of waypoints and return the total distance traveled in kilometers.
  */
+
+fun calculateTotalDistance (waypoints: List<Waypoint>): Double? {
+    if (waypoints.isEmpty()) return null
+
+    var totalDistance: Double = 0.0
+    var previousWaypoint: Waypoint = waypoints.first()
+
+    for (waypoint in waypoints) {
+        totalDistance += distanceInKm(waypoint.latitude, waypoint.longitude, previousWaypoint.latitude, previousWaypoint.longitude).absoluteValue
+        previousWaypoint = waypoint
+    }
+
+    return totalDistance
+}
+
 
 
 /**

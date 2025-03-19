@@ -16,7 +16,7 @@ import g11.models.CustomParameters
  * @receiver Angle in degrees.
  * @return The angle in radians.
  */
-private fun Double.toRadians(): Double = Math.toRadians(this)
+fun Double.toRadians(): Double = Math.toRadians(this)
 
 /**
  * Calculates the great-circle distance between two geographical points using the Haversine formula.
@@ -28,7 +28,7 @@ private fun Double.toRadians(): Double = Math.toRadians(this)
  * @param radius Radius of the sphere (default: Earth's radius in km)
  * @return The distance between the two points in kilometers.
  */
-private fun distanceInKm(
+fun distanceInKm(
     latitude1: Double,
     longitude1: Double,
     latitude2: Double,

@@ -21,8 +21,10 @@ fun performAnalysis(waypoints: List<Waypoint>): AnalysisResults {
 }
 
 // Perform advanced analysis
-//fun performAdvancedAnalysis(waypoints: List<Waypoint>): AdvancedAnalysisResults {
-//    return AdvancedAnalysisResults();
-//}
+fun performAdvancedAnalysis(waypoints: List<Waypoint>): AdvancedAnalysisResults {
+    return AdvancedAnalysisResults(
+        totalDistance = calculateTotalDistance(waypoints)
+    );
+}
 
 

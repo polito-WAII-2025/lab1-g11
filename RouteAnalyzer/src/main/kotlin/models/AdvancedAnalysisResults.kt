@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AdvancedAnalysisResults(
-    val averageSpeed: Double?,
-    val maxSpeed: Double?,
+    //val averageSpeed: Double?,
+    //val maxSpeed: Double?,
+    val totalDistance: Double?,
 )
