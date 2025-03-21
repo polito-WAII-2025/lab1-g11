@@ -6,15 +6,15 @@ WORKDIR /app
 
 # Copy Gradle project files
 COPY build.gradle.kts settings.gradle.kts gradlew ./
-COPY gradle gradle
+COPY gradle gradle/
 
-# Make Gradle wrapper executable
-RUN chmod +x gradlew
+# Fix line endings and ensure Gradle wrapper is executable
+RUN apt-get update && apt-get install -y dos2unix && dos2unix gradlew && chmod +x gradlew
 
 # Copy source code
 COPY src src/
 
-# Build the application using Gradle ShadowJar
+# Run Gradle build
 RUN ./gradlew shadowJar --no-daemon
 
 # Use a smaller runtime image
