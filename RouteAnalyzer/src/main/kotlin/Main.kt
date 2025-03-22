@@ -33,7 +33,7 @@ fun main(args: Array<String>) {
 
     if (results != null) {
         writeResultsToJsonFile(results, "evaluation/output.json")
-        writeAdvancedResultsToJsonFile(advancedResults, "evaluation/output_advanced.json")
+        writeResultsToJsonFile(advancedResults, "evaluation/output_advanced.json")
     } else {
         println("Analysis failed.")
     }
