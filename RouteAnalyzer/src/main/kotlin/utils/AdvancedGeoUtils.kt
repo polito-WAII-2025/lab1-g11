@@ -36,6 +36,7 @@ fun calculateTotalDistance (waypoints: List<Waypoint>): Double? {
  */
 
 
+
 /**
  * TODO: Implement a function to find Entry & Exit Points of Geofence
  * It should receive 4 parameters:
