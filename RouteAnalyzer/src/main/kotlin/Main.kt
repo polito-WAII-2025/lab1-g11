@@ -31,11 +31,7 @@ fun main(args: Array<String>) {
     val advancedResults = performAdvancedAnalysis(waypoints)
 
 
-    if (results != null) {
-        writeResultsToJsonFile(results, "evaluation/output.json")
-        writeResultsToJsonFile(advancedResults, "evaluation/output_advanced.json")
-    } else {
-        println("Analysis failed.")
-    }
+    writeResultsToJsonFile(results, "evaluation/output.json")
+    writeResultsToJsonFile(advancedResults, "evaluation/output_advanced.json")
 }
 

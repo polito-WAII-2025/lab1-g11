@@ -101,7 +101,6 @@ fun calculateMaxDistanceFromStart(waypoints: List<Waypoint>): MaxDistanceFromSta
  * @param areaRadiusKm Radius (in kilometers) within which waypoints are considered part of the same area.
  * @return MostFrequentedArea? An object containing the central waypoint, the radius, and the count of waypoints within the area.
  */
- // TODO: Improve time complexity of this function. Now it's O(n^2).
 fun calculateMostFrequentedArea(waypoints: List<Waypoint>, areaRadiusKm: Double): MostFrequentedArea? {
     if (waypoints.isEmpty()) return null // Return null if the list is empty
 

@@ -26,5 +26,3 @@ fun performAdvancedAnalysis(waypoints: List<Waypoint>): AdvancedAnalysisResults 
         totalDistance = calculateTotalDistance(waypoints)
     )
 }
-
-
