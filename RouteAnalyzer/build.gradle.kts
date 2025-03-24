@@ -34,22 +34,3 @@ tasks.jar {
         attributes["Main-Class"] = "g11.MainKt"
     }
 }
-
-//////////////////////////////////////////////////////////////////////////////
-
-//plugins {
-//    kotlin("jvm") version "1.9.0"
-//    application
-//    id("com.github.johnrengelman.shadow") version "8.1.1" // Add this
-//}
-//
-//application {
-//    mainClass.set("g11.MainKt")  // Replace with your actual main class
-//}
-//
-//tasks.withType<Jar> {
-//    manifest {
-//        attributes["Main-Class"] = "g11.MainKt"
-//    }
-//}
-

@@ -4,10 +4,8 @@ import java.io.File
 import java.io.FileInputStream
 import org.yaml.snakeyaml.Yaml
 import kotlinx.serialization.json.Json
-
-import g11.models.AnalysisResults
-import g11.models.CustomParameters
 import g11.models.Waypoint
+import kotlinx.serialization.encodeToString
 
 /**
  * Loads a YAML file and parses it into a map of parameters.
@@ -65,14 +63,14 @@ fun readWaypointsFromCsv(filePath: String): List<Waypoint> {
 
 /**
  * Writes the results of an analysis to a JSON file.
- * This function serializes the provided AnalysisResults object into JSON format and writes it to the specified file path.
+ * This function serializes the provided object into JSON format and writes it to the specified file path.
  *
- * @param results The AnalysisResults object that contains the analysis data to be serialized.
+ * @param results The serializable object that contains the analysis data to be serialized.
  * @param path The path to the file where the JSON results should be written.
  */
-fun writeResultsToJsonFile(results: AnalysisResults, path: String) {
+inline fun <reified T> writeResultsToJsonFile(results: T, path: String) {
     try {
-        val jsonString = Json.encodeToString(AnalysisResults.serializer(), results)
+        val jsonString = Json.encodeToString(results)
         File(path).writeText(jsonString)
     } catch (e: Exception) {
         println("Error writing to file: ${e.message}")
